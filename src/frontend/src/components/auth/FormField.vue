@@ -7,7 +7,7 @@
         <div class="mt-1 relative">
             <input
                 :id="id"
-                :type="type"
+                :type="actualType"
                 :value="modelValue"
                 :placeholder="placeholder"
                 :required="required"
