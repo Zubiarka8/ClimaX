@@ -30,3 +30,5 @@ coverage
 *.tsbuildinfo
 
 migration_lock.toml
+package-lock.json
+.env

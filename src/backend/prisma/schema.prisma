@@ -14,10 +14,14 @@ datasource db {
   
 }
 
-model user {
-  id        Int        @id @default(autoincrement())
+model User {
+  id        Int      @id @default(autoincrement())
   fullname  String
-  email     String     @unique
+  email     String   @unique
   password  String
-  username  String?   @unique
+  username  String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("users")
 }

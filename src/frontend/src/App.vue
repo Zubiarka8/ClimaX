@@ -1,11 +1,24 @@
-<script setup></script>
-
+<script setup>
+  import { onMounted } from 'vue';
+  import { useAuthStore } from './stores/authStore.js';
+  const { initializeAuth } = useAuthStore();
+  onMounted(() => {
+    initializeAuth();
+  });
+</script>
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
-<style scoped></style>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  #app {
+    min-height: 100vh;
+  }
+</style>
