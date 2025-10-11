@@ -17,6 +17,47 @@ ClimaX/
 - Node.js (v16 or higher)
 - npm or yarn
 - MySQL database (for backend)
+- Docker and Docker Compose (for containerized setup)
+
+## 🚀 Quick Start with Docker (Recommended)
+
+The easiest way to run ClimaX is using Docker Compose, which sets up all services automatically:
+
+### 1. Start All Services
+
+```bash
+docker compose up --build
+```
+
+### 2. Access the Application
+
+- **Recommended**: http://localhost:8081 (Nginx Proxy - unified access point)
+- Frontend only: http://localhost:8080
+- Backend API only: http://localhost:3000
+- MySQL: localhost:3307
+
+### 3. API Usage
+
+When using the proxy (recommended), all API calls should be prefixed with `/api/`:
+
+```javascript
+// ✅ Correct - Use /api/ prefix
+fetch('http://localhost:8081/api/users')
+fetch('http://localhost:8081/api/weather')
+
+// ❌ Avoid - Direct backend access
+fetch('http://localhost:3000/users')
+```
+
+### 4. Stop Services
+
+```bash
+docker compose down
+```
+
+## Manual Setup (Alternative)
+
+If you prefer to run services manually without Docker:
 
 ## Backend Setup
 
@@ -121,6 +162,11 @@ npm run build
 - **Vite** - Build tool and development server
 - **JavaScript** - Programming language
 
+### Infrastructure
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+- **Nginx** - Reverse proxy and static file serving
+
 ## Recommended IDE Setup
 
 [VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
@@ -144,14 +190,20 @@ If you encounter "Prisma client did not initialize" errors:
 3. Ensure your database is running and accessible
 
 ### Port Conflicts
-- Backend runs on port 3000 by default
-- Frontend runs on port 5173 by default (Vite)
+- **Docker setup**: Make sure ports 8081, 3000, 3307, and 8080 are not in use
+- **Manual setup**: Backend runs on port 3000, Frontend runs on port 5173 by default (Vite)
 - Change ports in the respective configuration files if needed
 
 ## API Endpoints
 
 ### Backend API
 - `GET /` - Health check and database connection test
+- `GET /api/` - API routes (when using proxy)
+
+### Proxy Routes (Recommended)
+- `GET /` - Frontend application
+- `GET /api/*` - Backend API routes
+- `GET /health` - Health check endpoint
 
 ## Contributing
 
