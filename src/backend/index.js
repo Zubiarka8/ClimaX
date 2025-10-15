@@ -2,7 +2,16 @@ const fastify = require('fastify')({
   logger: false
 });
 
-const config = require('./config');
+// Import environment configuration
+const { 
+  PORT, 
+  HOST, 
+  APP_NAME, 
+  APP_VERSION, 
+  IS_DEVELOPMENT,
+  OPEN_METEO_API_URL,
+  GEOCODING_API_URL
+} = require('./env.config.js');
 const prisma = require('./config/database');
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
 const corsMiddleware = require('./middleware/cors');
@@ -34,11 +43,16 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 const start = async () => {
   try {
     await fastify.listen({ 
-      port: config.PORT,
-      host: '0.0.0.0'
+      port: PORT,
+      host: HOST
     });
-    console.log(`🚀 ClimaX API server running on http://localhost:${config.PORT}`);
-    console.log(`📚 API Documentation available at http://localhost:${config.PORT}/api`);
+    console.log(`🚀 ${APP_NAME} v${APP_VERSION} server running on http://${HOST}:${PORT}`);
+    console.log(`📚 API Documentation available at http://${HOST}:${PORT}/api`);
+    console.log(`🌤️ Weather API: ${OPEN_METEO_API_URL}`);
+    console.log(`📍 Geocoding API: ${GEOCODING_API_URL}`);
+    if (IS_DEVELOPMENT) {
+      console.log(`🔧 Development mode enabled`);
+    }
   } catch (err) {
     console.error('Error starting server:', err);
     process.exit(1);
