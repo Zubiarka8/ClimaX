@@ -10,20 +10,20 @@
           @focus="searchQuery.length >= 2 && debouncedAutocomplete(searchQuery, 5)"
           type="text"
           placeholder="Search for a city (e.g., Madrid, London, Tokyo)..."
-          class="w-full px-4 py-3 pl-12 pr-12 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-blue focus:border-transparent"
+          class="w-full px-4 py-3 pl-12 pr-12 rounded-2xl backdrop-blur-xl bg-white/30 dark:bg-gray-800/20 border border-white/40 dark:border-gray-600/30 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 shadow-xl transition-all duration-300"
         />
         <!-- Search icon -->
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <MagnifyingGlassIcon class="h-5 w-5 text-gray-400" />
+          <MagnifyingGlassIcon class="h-5 w-5 text-gray-500 dark:text-gray-400" />
         </div>
         <!-- Loading indicator -->
         <div v-if="isSearching" class="absolute right-3 top-1/2 transform -translate-y-1/2">
-          <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+          <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-400"></div>
         </div>
         <!-- Autocomplete dropdown -->
         <div
           v-if="showAutocomplete && autocompleteSuggestions.length > 0"
-          class="absolute z-50 w-full mt-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+          class="absolute z-50 w-full mt-1 backdrop-blur-xl bg-white/30 dark:bg-gray-800/20 border border-white/40 dark:border-gray-600/30 rounded-2xl shadow-2xl max-h-60 overflow-y-auto"
         >
           <div
             v-for="(suggestion, index) in autocompleteSuggestions"
@@ -31,14 +31,14 @@
             @click="selectSuggestion(suggestion)"
             @mouseenter="selectedSuggestionIndex = index"
             :class="[
-              'px-4 py-3 cursor-pointer transition-colors duration-150',
+              'px-4 py-3 cursor-pointer transition-all duration-150 backdrop-blur-md',
               index === selectedSuggestionIndex 
-                ? 'bg-blue-50 dark:bg-gray-600 text-blue-600 dark:text-blue-400' 
-                : 'hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100'
+                ? 'bg-blue-500/20 dark:bg-blue-400/20 text-blue-800 dark:text-blue-200' 
+                : 'hover:bg-white/20 dark:hover:bg-gray-700/20 text-gray-800 dark:text-gray-100'
             ]"
           >
             <div class="flex items-center">
-              <MapPinIcon class="h-5 w-5 text-gray-400 mr-3" />
+              <MapPinIcon class="h-5 w-5 text-gray-500 dark:text-gray-400 mr-3" />
               <div>
                 <div class="font-medium">{{ suggestion.name }}</div>
                 <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -49,23 +49,30 @@
           </div>
         </div>
       </div>
-      <button
+      <Button
         @click="searchWeather"
         :disabled="isLoading"
-        class="px-6 py-3 bg-primary-blue text-white rounded-lg hover:bg-dark-blue disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        :loading="isLoading"
+        variant="primary"
+        size="lg"
+        rounded="xl"
+        custom-class="px-6 py-3"
       >
         {{ isLoading ? 'Searching...' : 'Search' }}
-      </button>
-      <button
+      </Button>
+      <Button
         @click="getCurrentLocation"
-        class="px-6 py-3 bg-secondary-blue text-white rounded-lg hover:bg-accent-blue transition-colors flex items-center"
+        variant="success"
+        size="lg"
+        rounded="xl"
+        custom-class="px-6 py-3"
+        :icon="MapPinIcon"
       >
-        <MapPinIcon class="h-5 w-5 mr-2" />
         Current Location
-      </button>
+      </Button>
     </div>
     <!-- Error Message -->
-    <div v-if="error" class="mt-4 p-4 bg-red-100 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded-lg text-red-700 dark:text-red-300">
+    <div v-if="error" class="mt-4 p-4 backdrop-blur-xl bg-red-500/20 dark:bg-red-900/20 border border-red-400/30 dark:border-red-700/30 rounded-2xl text-red-800 dark:text-red-300 shadow-xl">
       {{ error }}
     </div>
   </div>
@@ -74,6 +81,7 @@
 <script setup>
 import { ref } from 'vue'
 import { MagnifyingGlassIcon, MapPinIcon } from '@heroicons/vue/24/outline'
+import Button from '../ui/Button.vue'
 
 const GEOCODING_API_URL = import.meta.env.VITE_GEOCODING_API_URL || 'https://geocoding-api.open-meteo.com/v1/search'
 

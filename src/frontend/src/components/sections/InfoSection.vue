@@ -1,12 +1,12 @@
 <template>
-  <div :class="['mt-16 rounded-lg p-8 transition-colors duration-300', isDarkMode ? 'bg-gray-800' : 'bg-gray-50']">
+  <div class="mt-16 relative backdrop-blur-xl bg-white/10 dark:bg-gray-900/10 border border-white/20 dark:border-gray-700/30 rounded-3xl p-8 shadow-2xl shadow-gray-200/20 dark:shadow-gray-900/30">
     <h3 :class="['text-2xl font-bold mb-6 text-center transition-colors duration-300', textClass]">
       How to Use {{ APP_NAME }}
     </h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
         <h4 :class="['text-lg font-semibold mb-3 transition-colors duration-300 flex items-center', textClass]">
-          <MagnifyingGlassIcon class="h-5 w-5 mr-2" />
+          <MagnifyingGlassIcon class="h-5 w-5 mr-2 text-blue-500" />
           Search Cities
         </h4>
         <ul :class="['space-y-2 transition-colors duration-300', isDarkMode ? 'text-gray-300' : 'text-gray-600']">
@@ -18,7 +18,7 @@
       </div>
       <div>
         <h4 :class="['text-lg font-semibold mb-3 transition-colors duration-300 flex items-center', textClass]">
-          <MapPinIcon class="h-5 w-5 mr-2" />
+          <MapPinIcon class="h-5 w-5 mr-2 text-green-500" />
           Current Location
         </h4>
         <ul :class="['space-y-2 transition-colors duration-300', isDarkMode ? 'text-gray-300' : 'text-gray-600']">
