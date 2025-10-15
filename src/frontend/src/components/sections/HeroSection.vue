@@ -30,16 +30,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { MapPinIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from '../../composables/useTheme.js'
 
-// Props
-const props = defineProps({
-  isDarkMode: {
-    type: Boolean,
-    default: false
-  }
-})
+const { isDarkMode, textClass } = useTheme()
 
 // Emits
 const emit = defineEmits(['search-city'])
@@ -49,11 +43,6 @@ const popularCities = [
   'New York', 'London', 'Tokyo', 'Paris', 'Madrid', 'Barcelona', 
   'Rome', 'Berlin', 'Amsterdam', 'Sydney', 'Los Angeles', 'Chicago'
 ]
-
-// Computed properties
-const textClass = computed(() => 
-  props.isDarkMode ? 'text-white' : 'text-gray-900'
-)
 
 // Methods
 const searchPopularCity = (cityName) => {

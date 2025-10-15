@@ -8,6 +8,8 @@ import HeroSection from '../components/sections/HeroSection.vue'
 import FeaturesSection from '../components/sections/FeaturesSection.vue'
 import InfoSection from '../components/sections/InfoSection.vue'
 import Footer from '../components/layout/Footer.vue'
+// Import composables
+import { useTheme } from '../composables/useTheme.js'
 
 // Import Heroicons
 import {
@@ -34,8 +36,9 @@ if (IS_DEVELOPMENT) {
   })
 }
 
+const { bgClass, textClass } = useTheme()
+
 // Reactive data
-const isDarkMode = ref(false)
 const currentWeather = ref(null)
 const forecast = ref([])
 const isLoading = ref(false)
@@ -114,14 +117,7 @@ const getWeatherCondition = (weatherCode) => {
   return conditions[weatherCode] || 'Clear sky'
 }
 
-// Computed properties
-const bgClass = computed(() => 
-  isDarkMode.value ? 'bg-gray-900' : 'bg-white'
-)
-
-const textClass = computed(() => 
-  isDarkMode.value ? 'text-white' : 'text-gray-900'
-)
+// Computed properties (now from useTheme composable)
 
 // Function to get coordinates from city name
 const getCoordinatesFromCity = async (cityName) => {
@@ -322,10 +318,6 @@ const handleSearchCity = async (cityName) => {
 
 // Lifecycle
 onMounted(async () => {
-  // Load saved theme
-  const savedTheme = localStorage.getItem('theme')
-  isDarkMode.value = savedTheme === 'dark'
-  
   // Load default weather data from environment configuration
   try {
     isLoading.value = true
@@ -375,7 +367,7 @@ onMounted(async () => {
     <Navbar />
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-18">
       <!-- Search Section -->
       <SearchSection 
         :is-loading="isLoading"
@@ -387,7 +379,6 @@ onMounted(async () => {
 
       <!-- Hero Section -->
       <HeroSection 
-        :is-dark-mode="isDarkMode"
         @search-city="handleSearchCity"
       />
 
@@ -395,24 +386,17 @@ onMounted(async () => {
       <WeatherDisplay 
         :current-weather="currentWeather"
         :forecast="forecast"
-        :is-dark-mode="isDarkMode"
       />
 
       <!-- Features Section -->
-      <FeaturesSection 
-        :is-dark-mode="isDarkMode"
-      />
+      <FeaturesSection />
 
       <!-- Info Section -->
-      <InfoSection 
-        :is-dark-mode="isDarkMode"
-      />
+      <InfoSection />
     </main>
 
     <!-- Footer -->
-    <Footer 
-      :is-dark-mode="isDarkMode"
-    />
+    <Footer />
   </div>
 </template>
 

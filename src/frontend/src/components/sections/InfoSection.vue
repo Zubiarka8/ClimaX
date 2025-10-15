@@ -33,23 +33,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { MagnifyingGlassIcon, MapPinIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from '../../composables/useTheme.js'
 
 // Environment variables
 const APP_NAME = import.meta.env.VITE_APP_NAME || 'ClimaX'
 
-// Props
-const props = defineProps({
-  isDarkMode: {
-    type: Boolean,
-    default: false
-  }
-})
-
-// Computed properties
-const textClass = computed(() => 
-  props.isDarkMode ? 'text-white' : 'text-gray-900'
-)
+const { isDarkMode, textClass } = useTheme()
 </script>
 

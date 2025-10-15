@@ -38,26 +38,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { MapPinIcon, ClockIcon, DevicePhoneMobileIcon } from '@heroicons/vue/24/outline'
+import { useTheme } from '../../composables/useTheme.js'
 
 const APP_NAME = import.meta.env.VITE_APP_NAME || 'ClimaX'
 
-const props = defineProps({
-  isDarkMode: {
-    type: Boolean,
-    default: false
-  }
-})
-
-const textClass = computed(() => 
-  props.isDarkMode ? 'text-white' : 'text-gray-900'
-)
-
-const cardClass = computed(() => 
-  props.isDarkMode 
-    ? 'bg-gray-800 border-gray-700' 
-    : 'bg-white border-gray-200'
-)
+const { isDarkMode, textClass, cardClass } = useTheme()
 </script>
 

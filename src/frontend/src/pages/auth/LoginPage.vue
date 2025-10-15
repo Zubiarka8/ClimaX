@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
         <Navbar />
-        <div class="flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-32 pb-12">
             <div class="max-w-md w-full space-y-8">
                 <LoginForm
                     @switch-to-register="$router.push('/register')"

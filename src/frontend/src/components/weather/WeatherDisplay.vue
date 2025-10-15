@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { useTheme } from '../../composables/useTheme.js'
 
 const props = defineProps({
   currentWeather: {
@@ -57,17 +57,9 @@ const props = defineProps({
   forecast: {
     type: Array,
     default: () => []
-  },
-  isDarkMode: {
-    type: Boolean,
-    default: false
   }
 })
 
-const cardClass = computed(() => 
-  props.isDarkMode 
-    ? 'bg-gray-800 border-gray-700' 
-    : 'bg-white border-gray-200'
-)
+const { cardClass } = useTheme()
 </script>
 

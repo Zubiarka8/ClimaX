@@ -1,6 +1,6 @@
 <template>
     <div>
-        <label :for="id" class="block text-sm font-medium text-gray-700">
+        <label :for="id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
             {{ label }}
             <span v-if="required" class="text-red-500">*</span>
         </label>
@@ -19,7 +19,7 @@
             />
             <!-- Icon (optional) -->
             <div v-if="icon" class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <component :is="icon" class="h-5 w-5 text-gray-400" />
+                <component :is="icon" class="h-5 w-5 text-gray-400 dark:text-gray-500" />
             </div>
             <!-- Password toggle for password fields -->
             <button
@@ -30,7 +30,7 @@
             >
                 <svg
                     v-if="showPassword"
-                    class="h-5 w-5 text-gray-400 hover:text-gray-600"
+                    class="h-5 w-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -39,7 +39,7 @@
                 </svg>
                 <svg
                     v-else
-                    class="h-5 w-5 text-gray-400 hover:text-gray-600"
+                    class="h-5 w-5 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -50,11 +50,11 @@
             </button>
         </div>
         <!-- Error message -->
-        <p v-if="error" class="mt-2 text-sm text-red-600">
+        <p v-if="error" class="mt-2 text-sm text-red-600 dark:text-red-400">
             {{ error }}
         </p>
         <!-- Help text -->
-        <p v-if="help && !error" class="mt-2 text-sm text-gray-500">
+        <p v-if="help && !error" class="mt-2 text-sm text-gray-500 dark:text-gray-400">
             {{ help }}
         </p>
     </div>
@@ -116,7 +116,7 @@ const isFocused = ref(false);
 
 // Computed
 const inputClasses = computed(() => {
-  let baseClasses = 'appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200';
+  let baseClasses = 'appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200';
   
   if (props.icon) {
     baseClasses += ' pl-10';
@@ -127,14 +127,14 @@ const inputClasses = computed(() => {
   }
   
   if (props.error) {
-    return `${baseClasses} border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500`;
+    return `${baseClasses} border-red-300 dark:border-red-600 text-red-900 dark:text-red-100 placeholder-red-300 dark:placeholder-red-400 focus:ring-red-500 focus:border-red-500`;
   }
   
   if (isFocused.value) {
-    return `${baseClasses} border-blue-300`;
+    return `${baseClasses} border-blue-300 dark:border-blue-600`;
   }
   
-  return `${baseClasses} border-gray-300`;
+  return `${baseClasses} border-gray-300 dark:border-gray-600`;
 });
 
 const actualType = computed(() => {
