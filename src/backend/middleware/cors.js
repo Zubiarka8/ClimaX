@@ -8,10 +8,15 @@ const corsMiddleware = (fastify, options, done) => {
     fastify.addHook('preHandler', async (request, reply) => {
         const origin = request.headers.origin;
         const { allowedOrigins, allowedMethods, allowedHeaders, credentials, maxAge } = config.CORS;
-        if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
-            reply.header('Access-Control-Allow-Origin', origin);
-        } else if (allowedOrigins.includes('*')) {
+        if (allowedOrigins.includes('*')) {
             reply.header('Access-Control-Allow-Origin', '*');
+        } else if (allowedOrigins.includes(origin)) {
+            reply.header('Access-Control-Allow-Origin', origin);
+        } else {
+            // For development, allow localhost origins even if not explicitly listed
+            if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
+                reply.header('Access-Control-Allow-Origin', origin);
+            }
         }
         reply.header('Access-Control-Allow-Methods', allowedMethods.join(', '));
         reply.header('Access-Control-Allow-Headers', allowedHeaders.join(', '));

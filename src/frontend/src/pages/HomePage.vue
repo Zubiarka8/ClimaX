@@ -323,7 +323,6 @@ onMounted(async () => {
     isLoading.value = true
     const location = await getCoordinatesFromCity(DEFAULT_CITY)
     const weatherData = await fetchWeatherData(location.latitude, location.longitude)
-    
     // Process current weather
     const current = weatherData.current
     currentWeather.value = {
@@ -335,15 +334,12 @@ onMounted(async () => {
       uvIndex: 6, // Open-Meteo doesn't provide UV in free tier
       icon: getWeatherIcon(current.weather_code)
     }
-    
     // Process forecast data
     const daily = weatherData.daily
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    
     forecast.value = daily.time.slice(0, 5).map((date, index) => {
       const day = new Date(date)
       const dayName = index === 0 ? 'Today' : dayNames[day.getDay()]
-      
       return {
         day: dayName,
         temp: Math.round(daily.temperature_2m_max[index]),
@@ -351,7 +347,6 @@ onMounted(async () => {
         icon: getWeatherIcon(daily.weather_code[index])
       }
     })
-    
   } catch (err) {
     console.error('Failed to load default weather data:', err)
     error.value = 'Failed to load weather data'
@@ -365,7 +360,6 @@ onMounted(async () => {
   <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
     <!-- Navbar -->
     <Navbar />
-
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-32">
       <!-- Search Section -->
@@ -376,30 +370,21 @@ onMounted(async () => {
         @current-location="handleCurrentLocation"
         @suggestion-selected="handleSuggestionSelected"
       />
-
       <!-- Hero Section -->
-      <HeroSection 
+      <HeroSection
         @search-city="handleSearchCity"
       />
-
       <!-- Weather Display -->
       <WeatherDisplay 
         :current-weather="currentWeather"
         :forecast="forecast"
       />
-
       <!-- Features Section -->
       <FeaturesSection />
-
       <!-- Info Section -->
       <InfoSection />
     </main>
-
     <!-- Footer -->
     <Footer />
   </div>
 </template>
-
-<style scoped>
-/* Additional custom styles if needed */
-</style>
