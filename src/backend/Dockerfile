@@ -8,7 +8,8 @@ COPY package*.json ./
 
 COPY prisma ./prisma/
 
-RUN npm ci
+# Install dependencies with better compatibility
+RUN npm install --omit=optional
 
 RUN npx prisma generate
 
