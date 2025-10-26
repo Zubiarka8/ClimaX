@@ -32,8 +32,8 @@
             @mouseenter="selectedSuggestionIndex = index"
             :class="[
               'px-4 py-3 cursor-pointer transition-all duration-150 backdrop-blur-md',
-              index === selectedSuggestionIndex 
-                ? 'bg-blue-500/20 dark:bg-blue-400/20 text-blue-800 dark:text-blue-200' 
+              index === selectedSuggestionIndex
+                ? 'bg-blue-500/20 dark:bg-blue-400/20 text-blue-800 dark:text-blue-200'
                 : 'hover:bg-white/20 dark:hover:bg-gray-700/20 text-gray-800 dark:text-gray-100'
             ]"
           >
@@ -120,11 +120,9 @@ const getAutocompleteSuggestions = async (query, count = 5) => {
     showAutocomplete.value = false
     return
   }
-  
   try {
     isSearching.value = true
     const suggestions = await getCitySuggestions(query, count)
-    
     if (suggestions.length > 0) {
       autocompleteSuggestions.value = suggestions
       showAutocomplete.value = true

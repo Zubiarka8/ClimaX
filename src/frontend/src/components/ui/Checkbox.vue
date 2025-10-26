@@ -103,11 +103,9 @@ const checkboxClasses = computed(() => {
     md: 'w-5 h-5',
     lg: 'w-6 h-6'
   }
-  
   if (props.disabled) {
     return `${baseClasses} ${sizeClasses[props.size]} border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 cursor-not-allowed opacity-50`
   }
-  
   if (props.modelValue) {
     const checkedClasses = {
       primary: 'bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600',
@@ -118,7 +116,6 @@ const checkboxClasses = computed(() => {
     }
     return `${baseClasses} ${sizeClasses[props.size]} ${checkedClasses[props.variant]}`
   }
-  
   const uncheckedClasses = 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-600'
   return `${baseClasses} ${sizeClasses[props.size]} ${uncheckedClasses}`
 })
@@ -130,7 +127,6 @@ const labelClasses = computed(() => {
   return 'text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300'
 })
 
-// Methods
 const handleChange = (event) => {
   if (!props.disabled) {
     emit('update:modelValue', event.target.checked)

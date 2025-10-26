@@ -2,12 +2,11 @@ const fastify = require('fastify')({
   logger: false
 });
 
-// Import environment configuration
-const { 
-  PORT, 
-  HOST, 
-  APP_NAME, 
-  APP_VERSION, 
+const {
+  PORT,
+  HOST,
+  APP_NAME,
+  APP_VERSION,
   IS_DEVELOPMENT,
   OPEN_METEO_API_URL,
   GEOCODING_API_URL
@@ -42,7 +41,7 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
 const start = async () => {
   try {
-    await fastify.listen({ 
+    await fastify.listen({
       port: PORT,
       host: HOST
     });

@@ -11,7 +11,6 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-  
 }
 
 model User {
@@ -22,6 +21,5 @@ model User {
   username  String?  @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
   @@map("users")
 }

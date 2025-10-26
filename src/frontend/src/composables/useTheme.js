@@ -27,7 +27,6 @@ const updateSystemPreferenceListener = () => {
     mediaQuery.removeEventListener('change', systemPreferenceListener)
     systemPreferenceListener = null
   }
-  
   // Add new listener if theme is 'system'
   if (theme.value === 'system') {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -39,16 +38,13 @@ const updateSystemPreferenceListener = () => {
 // Initialize theme from localStorage
 const initializeTheme = () => {
   const savedTheme = localStorage.getItem('theme')
-  
   if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
     theme.value = savedTheme
   } else {
     theme.value = 'system'
   }
-  
   // Apply theme to document
   applyTheme()
-  
   // Manage system preference listener
   updateSystemPreferenceListener()
 }
@@ -56,7 +52,6 @@ const initializeTheme = () => {
 // Apply theme to document
 const applyTheme = () => {
   const effectiveTheme = getEffectiveTheme()
-  
   if (effectiveTheme === 'dark') {
     document.documentElement.classList.add('dark')
   } else {
@@ -73,12 +68,9 @@ const cycleTheme = () => {
   } else {
     theme.value = 'system'
   }
-  
   localStorage.setItem('theme', theme.value)
-  
   // Update system preference listener
   updateSystemPreferenceListener()
-  
   applyTheme()
 }
 
@@ -88,25 +80,18 @@ const setTheme = (newTheme) => {
     console.warn(`Invalid theme: ${newTheme}. Using 'system' instead.`)
     newTheme = 'system'
   }
-  
   theme.value = newTheme
   localStorage.setItem('theme', newTheme)
-  
   // Update system preference listener
   updateSystemPreferenceListener()
-  
   applyTheme()
 }
 
 // Legacy support: Toggle between light and dark (for backwards compatibility)
 const toggleTheme = () => {
   const effectiveTheme = getEffectiveTheme()
-  
-  if (effectiveTheme === 'dark') {
-    setTheme('light')
-  } else {
-    setTheme('dark')
-  }
+  if (effectiveTheme === 'dark') setTheme('light')
+  else setTheme('dark')
 }
 
 // Watch for theme changes and apply to document
@@ -122,17 +107,17 @@ const themeClasses = computed(() => ({
   'light': !isDarkMode.value
 }))
 
-const bgClass = computed(() => 
+const bgClass = computed(() =>
   isDarkMode.value ? 'bg-black' : 'bg-white'
 )
 
-const textClass = computed(() => 
+const textClass = computed(() =>
   isDarkMode.value ? 'text-white' : 'text-gray-900'
 )
 
-const cardClass = computed(() => 
-  isDarkMode.value 
-    ? 'bg-gray-900 border-gray-800' 
+const cardClass = computed(() =>
+  isDarkMode.value
+    ? 'bg-gray-900 border-gray-800'
     : 'bg-white border-gray-200'
 )
 

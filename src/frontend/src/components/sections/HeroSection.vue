@@ -44,7 +44,7 @@ const emit = defineEmits(['search-city'])
 
 // Popular cities for quick search
 const popularCities = [
-  'New York', 'London', 'Tokyo', 'Paris', 'Madrid', 'Barcelona', 
+  'New York', 'London', 'Tokyo', 'Paris', 'Madrid', 'Barcelona',
   'Rome', 'Berlin', 'Amsterdam', 'Sydney', 'Los Angeles', 'Chicago'
 ]
 

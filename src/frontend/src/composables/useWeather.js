@@ -1,6 +1,6 @@
 /**
  * useWeather - Composable to handle weather state
- * 
+ *
  * This composable provides a reactive interface to interact with WeatherService,
  * managing loading states, errors and weather data.
  */
@@ -75,12 +75,10 @@ export function useWeather() {
    */
   const processWeatherWithIcons = (weatherData) => {
     const processedData = { ...weatherData }
-    
     // Add icon to current weather
     if (processedData.current) {
       processedData.current.icon = getWeatherIcon(processedData.current.weatherCode)
     }
-    
     // Add icons to forecast
     if (processedData.forecast) {
       processedData.forecast = processedData.forecast.map(day => ({
@@ -88,7 +86,6 @@ export function useWeather() {
         icon: getWeatherIcon(day.weatherCode)
       }))
     }
-    
     return processedData
   }
 
@@ -98,14 +95,11 @@ export function useWeather() {
    */
   const searchWeatherByCity = async (cityName) => {
     if (!cityName?.trim()) return
-    
     isLoading.value = true
     error.value = ''
-    
     try {
       const weatherData = await weatherService.getWeatherByCity(cityName.trim())
       const processedData = processWeatherWithIcons(weatherData)
-      
       currentWeather.value = processedData.current
       forecast.value = processedData.forecast
     } catch (err) {
@@ -122,11 +116,9 @@ export function useWeather() {
   const getCurrentLocationWeather = async () => {
     isLoading.value = true
     error.value = ''
-    
     try {
       const weatherData = await weatherService.getWeatherByCurrentLocation()
       const processedData = processWeatherWithIcons(weatherData)
-      
       currentWeather.value = processedData.current
       forecast.value = processedData.forecast
     } catch (err) {
@@ -146,11 +138,9 @@ export function useWeather() {
   const loadDefaultWeather = async () => {
     isLoading.value = true
     error.value = ''
-    
     try {
       const weatherData = await weatherService.getDefaultWeather()
       const processedData = processWeatherWithIcons(weatherData)
-      
       currentWeather.value = processedData.current
       forecast.value = processedData.forecast
     } catch (err) {
@@ -204,12 +194,10 @@ export function useWeather() {
     forecast,
     isLoading,
     error,
-    
     // Computed properties
     hasWeatherData,
     hasError,
     isReady,
-    
     // Methods
     searchWeatherByCity,
     getCurrentLocationWeather,

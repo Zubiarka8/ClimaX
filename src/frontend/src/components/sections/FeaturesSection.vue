@@ -14,7 +14,6 @@
           Get accurate weather data for any location with GPS precision
         </p>
       </div>
-      
       <div class="relative backdrop-blur-xl bg-white/30 dark:bg-gray-900/10 border border-white/40 dark:border-gray-700/30 rounded-2xl p-6 text-center shadow-2xl shadow-gray-200/30 dark:shadow-gray-900/30 hover:shadow-3xl hover:shadow-gray-200/40 dark:hover:shadow-gray-900/40 transition-all duration-300 group">
         <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-blue-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <ClockIcon class="h-12 w-12 text-green-500 mx-auto mb-4 relative z-10" />
@@ -25,7 +24,6 @@
           Plan ahead with detailed 5-day weather forecasts
         </p>
       </div>
-      
       <div class="relative backdrop-blur-xl bg-white/30 dark:bg-gray-900/10 border border-white/40 dark:border-gray-700/30 rounded-2xl p-6 text-center shadow-2xl shadow-gray-200/30 dark:shadow-gray-900/30 hover:shadow-3xl hover:shadow-gray-200/40 dark:hover:shadow-gray-900/40 transition-all duration-300 group">
         <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <DevicePhoneMobileIcon class="h-12 w-12 text-purple-500 mx-auto mb-4 relative z-10" />

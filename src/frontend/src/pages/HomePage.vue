@@ -77,7 +77,7 @@ onMounted(async () => {
         @search-city="handleSearchCity"
       />
       <!-- Weather Display -->
-      <WeatherDisplay 
+      <WeatherDisplay
         :current-weather="currentWeather"
         :forecast="forecast"
       />

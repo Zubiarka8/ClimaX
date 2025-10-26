@@ -61,14 +61,12 @@ const props = defineProps({
     default: 'button',
     validator: (value) => ['button', 'submit', 'reset'].includes(value)
   },
-  
   // HTML tag to render
   tag: {
     type: String,
     default: 'button',
     validator: (value) => ['button', 'a', 'router-link'].includes(value)
   },
-  
   // Button variant
   variant: {
     type: String,
@@ -78,48 +76,40 @@ const props = defineProps({
       'outline', 'ghost', 'glass', 'gradient'
     ].includes(value)
   },
-  
   // Button size
   size: {
     type: String,
     default: 'md',
     validator: (value) => ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
   },
-  
   // Button state
   disabled: {
     type: Boolean,
     default: false
   },
-  
   loading: {
     type: Boolean,
     default: false
   },
-  
   // Icons
   icon: {
     type: [String, Object],
     default: null
   },
-  
   iconRight: {
     type: [String, Object],
     default: null
   },
-  
   // Custom classes
   customClass: {
     type: String,
     default: ''
   },
-  
   // Full width
   fullWidth: {
     type: Boolean,
     default: false
   },
-  
   // Rounded corners
   rounded: {
     type: String,
@@ -131,7 +121,6 @@ const props = defineProps({
 // Emits
 const emit = defineEmits(['click'])
 
-// Computed properties
 const buttonClasses = computed(() => {
   const baseClasses = [
     'inline-flex',
@@ -148,8 +137,6 @@ const buttonClasses = computed(() => {
     'relative',
     'overflow-hidden'
   ]
-
-  // Size classes
   const sizeClasses = {
     xs: ['text-xs', 'px-2', 'py-1'],
     sm: ['text-sm', 'px-3', 'py-1.5'],
@@ -167,7 +154,6 @@ const buttonClasses = computed(() => {
     xl: 'rounded-xl',
     full: 'rounded-full'
   }
-
   // Variant classes
   const variantClasses = {
     primary: [
@@ -288,27 +274,23 @@ const buttonClasses = computed(() => {
 
 const iconClasses = computed(() => {
   const baseIconClasses = ['h-4', 'w-4']
-  
   if (props.icon) {
     return [
       ...baseIconClasses,
       props.size === 'xs' ? 'mr-1' : 'mr-2'
     ].join(' ')
   }
-  
   return baseIconClasses.join(' ')
 })
 
 const iconRightClasses = computed(() => {
   const baseIconClasses = ['h-4', 'w-4']
-  
   if (props.iconRight) {
     return [
       ...baseIconClasses,
       props.size === 'xs' ? 'ml-1' : 'ml-2'
     ].join(' ')
   }
-  
   return baseIconClasses.join(' ')
 })
 

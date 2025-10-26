@@ -2,10 +2,8 @@
   import { onMounted } from 'vue';
   import { useAuthStore } from './stores/authStore.js';
   import { useTheme } from './composables/useTheme.js';
-  
   const { initializeAuth } = useAuthStore();
   const { initializeTheme } = useTheme();
-  
   onMounted(() => {
     initializeAuth();
     initializeTheme();

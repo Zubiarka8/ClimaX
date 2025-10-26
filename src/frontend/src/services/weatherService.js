@@ -1,6 +1,6 @@
 /**
  * WeatherService - Dedicated service to handle all weather-related requests
- * 
+ *
  * This service encapsulates all the logic for communicating with weather and geocoding APIs,
  * providing a clean and consistent interface for obtaining weather data.
  */
@@ -67,13 +67,10 @@ class WeatherService {
       let response = await fetch(
         `${this.geocodingUrl}?name=${encodeURIComponent(cityName)}&count=1&language=en&format=json`
       )
-      
       if (!response.ok) {
         throw new Error(`Connection error: ${response.status}`)
       }
-      
       let data = await response.json()
-      
       // If we found results, return the first one
       if (data.results && data.results.length > 0) {
         const result = data.results[0]
@@ -85,14 +82,12 @@ class WeatherService {
           admin1: result.admin1
         }
       }
-      
       // Strategy 2: If no results, try only with the first word
       const firstWord = cityName.split(',')[0].trim()
       if (firstWord !== cityName) {
         response = await fetch(
           `${this.geocodingUrl}?name=${encodeURIComponent(firstWord)}&count=1&language=en&format=json`
         )
-        
         if (response.ok) {
           data = await response.json()
           if (data.results && data.results.length > 0) {
@@ -107,10 +102,8 @@ class WeatherService {
           }
         }
       }
-      
       // If we get here, the city was not found
       throw new Error('City not found')
-      
     } catch (error) {
       console.error('Error getting coordinates:', error)
       // Only propagate the error if it's really a problem
@@ -136,17 +129,9 @@ class WeatherService {
       const response = await fetch(
         `${this.geocodingUrl}?name=${encodeURIComponent(query)}&count=${count}&language=en&format=json`
       )
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
       const data = await response.json()
-      
-      if (!data.results || data.results.length === 0) {
-        return []
-      }
-      
+      if (!data.results || data.results.length === 0) return []
       return data.results.map(result => ({
         name: result.name,
         country: result.country,
@@ -173,11 +158,7 @@ class WeatherService {
       const response = await fetch(
         `${this.apiBaseUrl}/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`
       )
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
       const data = await response.json()
       return this.processWeatherData(data)
     } catch (error) {
@@ -197,18 +178,12 @@ class WeatherService {
       const response = await fetch(
         `${this.geocodingUrl}?latitude=${latitude}&longitude=${longitude}&count=1&language=en&format=json`
       )
-      
-      if (!response.ok) {
-        throw new Error(`Connection error: ${response.status}`)
-      }
-      
+      if (!response.ok) throw new Error(`Connection error: ${response.status}`)
       const data = await response.json()
-      
       if (data.results && data.results.length > 0) {
         const result = data.results[0]
         return `${result.name}${result.admin1 ? ', ' + result.admin1 : ''}, ${result.country}`
       }
-      
       // If no name is found, use formatted coordinates
       return `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`
     } catch (error) {
@@ -225,7 +200,6 @@ class WeatherService {
    */
   processWeatherData(rawData) {
     const { current, daily } = rawData
-    
     // Process current weather
     const currentWeather = {
       temperature: Math.round(current.temperature_2m),
@@ -235,13 +209,11 @@ class WeatherService {
       uvIndex: 6, // Open-Meteo doesn't provide UV in the free tier
       weatherCode: current.weather_code
     }
-    
     // Process 5-day forecast
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const forecast = daily.time.slice(0, 5).map((date, index) => {
       const day = new Date(date)
       const dayName = index === 0 ? 'Today' : dayNames[day.getDay()]
-      
       return {
         day: dayName,
         temp: Math.round(daily.temperature_2m_max[index]),
@@ -249,7 +221,6 @@ class WeatherService {
         weatherCode: daily.weather_code[index]
       }
     })
-    
     return {
       current: currentWeather,
       forecast: forecast
@@ -274,7 +245,6 @@ class WeatherService {
     try {
       const coordinates = await this.getCoordinatesFromCity(cityName)
       const weatherData = await this.getWeatherData(coordinates.latitude, coordinates.longitude)
-      
       return {
         ...weatherData,
         location: `${coordinates.name}${coordinates.admin1 ? ', ' + coordinates.admin1 : ''}, ${coordinates.country}`
@@ -295,18 +265,15 @@ class WeatherService {
         reject(new Error('La geolocalización no está soportada por este navegador'))
         return
       }
-      
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           try {
             const { latitude, longitude } = position.coords
-            
             // Get weather data and location name in parallel
             const [weatherData, locationName] = await Promise.all([
               this.getWeatherData(latitude, longitude),
               this.getLocationName(latitude, longitude)
             ])
-            
             resolve({
               ...weatherData,
               location: locationName
@@ -318,7 +285,6 @@ class WeatherService {
         },
         (error) => {
           let errorMessage = 'Unknown error getting location'
-          
           switch (error.code) {
             case error.PERMISSION_DENIED:
               errorMessage = 'Location access denied by user'
@@ -330,7 +296,6 @@ class WeatherService {
               errorMessage = 'Location request timed out'
               break
           }
-          
           reject(new Error(errorMessage))
         },
         {

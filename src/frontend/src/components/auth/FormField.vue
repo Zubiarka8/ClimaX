@@ -117,34 +117,18 @@ const isFocused = ref(false);
 // Computed
 const inputClasses = computed(() => {
   let baseClasses = 'appearance-none block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200';
-  
-  if (props.icon) {
-    baseClasses += ' pl-10';
-  }
-  
-  if (props.type === 'password') {
-    baseClasses += ' pr-10';
-  }
-  
-  if (props.error) {
-    return `${baseClasses} border-red-300 dark:border-red-600 text-red-900 dark:text-red-100 placeholder-red-300 dark:placeholder-red-400 focus:ring-red-500 focus:border-red-500`;
-  }
-  
-  if (isFocused.value) {
-    return `${baseClasses} border-blue-300 dark:border-blue-600`;
-  }
-  
+  if (props.icon) baseClasses += ' pl-10';
+  if (props.type === 'password') baseClasses += ' pr-10';
+  if (props.error) return `${baseClasses} border-red-300 dark:border-red-600 text-red-900 dark:text-red-100 placeholder-red-300 dark:placeholder-red-400 focus:ring-red-500 focus:border-red-500`;
+  if (isFocused.value) return `${baseClasses} border-blue-300 dark:border-blue-600`;
   return `${baseClasses} border-gray-300 dark:border-gray-600`;
 });
 
 const actualType = computed(() => {
-  if (props.type === 'password') {
-    return showPassword.value ? 'text' : 'password';
-  }
+  if (props.type === 'password') return showPassword.value ? 'text' : 'password';
   return props.type;
 });
 
-// Methods
 const handleInput = (event) => {
   emit('update:modelValue', event.target.value);
 };

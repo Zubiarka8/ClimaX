@@ -1,5 +1,3 @@
-// ClimaX Backend Environment Configuration (CommonJS)
-// This file contains only the environment variables that are actually used
 
 const dotenv = require('dotenv')
 
@@ -37,7 +35,6 @@ const {
   IS_PRODUCTION
 } = envConfig
 
-// Log configuration in development mode
 if (IS_DEVELOPMENT) {
   console.log('🌤️ ClimaX Backend Environment Configuration:', {
     mode: NODE_ENV,
@@ -55,9 +52,7 @@ if (IS_PRODUCTION) {
     'OPEN_METEO_API_URL',
     'GEOCODING_API_URL'
   ]
-
   const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar])
-
   if (missingEnvVars.length > 0) {
     console.error('❌ Missing required environment variables:', missingEnvVars)
     process.exit(1)
