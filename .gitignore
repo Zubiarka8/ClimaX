@@ -46,7 +46,6 @@ Thumbs.db
 migration_lock.toml
 
 # Docker
-.dockerignore
 docker-compose.override.yml
 *.dockerfile.local
 
