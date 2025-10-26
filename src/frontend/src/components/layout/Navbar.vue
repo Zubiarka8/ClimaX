@@ -107,12 +107,23 @@
           </div>
           <!-- Theme Toggle -->
           <button
-            @click="toggleTheme"
-            class="p-3 bg-white/10 dark:bg-gray-800/20 backdrop-blur-md border border-white/20 dark:border-gray-700/30 rounded-full hover:bg-white/20 dark:hover:bg-gray-800/30 transition-all duration-300 shadow-lg hover:shadow-xl"
-            :title="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+            @click="cycleTheme"
+            class="p-3 bg-white/10 dark:bg-gray-800/20 backdrop-blur-md border border-white/20 dark:border-gray-700/30 rounded-full hover:bg-white/20 dark:hover:bg-gray-800/30 transition-all duration-300 shadow-lg hover:shadow-xl group relative"
+            :title="`Current theme: ${theme}. Click to cycle through themes.`"
           >
-            <SunIcon v-if="isDarkMode" class="h-5 w-5 text-yellow-500 transition-transform duration-300" />
-            <MoonIcon v-else class="h-5 w-5 text-gray-600 dark:text-gray-400 transition-transform duration-300" />
+            <!-- Sun Icon for Light Mode -->
+            <SunIcon v-if="theme === 'light'" class="h-5 w-5 text-yellow-500 transition-transform duration-300" />
+            <!-- Moon Icon for Dark Mode -->
+            <MoonIcon v-else-if="theme === 'dark'" class="h-5 w-5 text-blue-400 transition-transform duration-300" />
+            <!-- Computer/System Icon for System/Default Mode -->
+            <svg v-else class="h-5 w-5 text-gray-600 dark:text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            
+            <!-- Tooltip showing current theme -->
+            <div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-800 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap">
+              Theme: {{ theme === 'system' ? 'System' : theme === 'light' ? 'Light' : 'Dark' }}
+            </div>
           </button>
 
           <!-- Mobile Menu Button -->
@@ -220,7 +231,7 @@ const APP_NAME = import.meta.env.VITE_APP_NAME || 'ClimaX'
 const router = useRouter()
 
 // Theme composable
-const { isDarkMode, toggleTheme } = useTheme()
+const { isDarkMode, theme, effectiveTheme, cycleTheme } = useTheme()
 
 // Auth store
 const { user, isAuthenticated, logout } = useAuthStore()

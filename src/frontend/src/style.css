@@ -4,7 +4,7 @@
 
 /* Custom CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
+  /* Light theme colors - Based on #fff (color-white) */
   --bg-primary: #ffffff;
   --bg-secondary: #f9fafb;
   --bg-card: #ffffff;
@@ -17,14 +17,14 @@
 }
 
 .dark {
-  /* Dark theme colors */
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --bg-card: #374151;
+  /* Dark theme colors - Based on #000 (color-black) */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #1a1a1a;
   --text-primary: #f9fafb;
   --text-secondary: #d1d5db;
   --text-muted: #9ca3af;
-  --border-color: #4b5563;
+  --border-color: #2a2a2a;
   --accent-color: #60a5fa;
   --accent-hover: #3b82f6;
 }

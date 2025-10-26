@@ -82,8 +82,7 @@
 import { ref } from 'vue'
 import { MagnifyingGlassIcon, MapPinIcon } from '@heroicons/vue/24/outline'
 import Button from '../ui/Button.vue'
-
-const GEOCODING_API_URL = import.meta.env.VITE_GEOCODING_API_URL || 'https://geocoding-api.open-meteo.com/v1/search'
+import { useWeather } from '../../composables/useWeather.js'
 
 const props = defineProps({
   isLoading: {
@@ -96,7 +95,10 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['search', 'current-location', 'suggestion-selected'])
+const emit = defineEmits(['search', 'current-location'])
+
+// Usar el composable de clima para obtener sugerencias
+const { getCitySuggestions } = useWeather()
 
 const searchQuery = ref('')
 const autocompleteSuggestions = ref([])
@@ -118,19 +120,13 @@ const getAutocompleteSuggestions = async (query, count = 5) => {
     showAutocomplete.value = false
     return
   }
+  
   try {
     isSearching.value = true
-    const response = await fetch(`${GEOCODING_API_URL}?name=${encodeURIComponent(query)}&count=${count}&language=en&format=json`)
-    const data = await response.json()
-    if (data.results && data.results.length > 0) {
-      autocompleteSuggestions.value = data.results.map(result => ({
-        name: result.name,
-        country: result.country,
-        admin1: result.admin1, // State/Province
-        latitude: result.latitude,
-        longitude: result.longitude,
-        displayName: `${result.name}${result.admin1 ? ', ' + result.admin1 : ''}, ${result.country}`
-      }))
+    const suggestions = await getCitySuggestions(query, count)
+    
+    if (suggestions.length > 0) {
+      autocompleteSuggestions.value = suggestions
       showAutocomplete.value = true
       selectedSuggestionIndex.value = -1
     } else {
@@ -138,7 +134,7 @@ const getAutocompleteSuggestions = async (query, count = 5) => {
       showAutocomplete.value = false
     }
   } catch (err) {
-    console.error('Autocomplete error:', err)
+    console.error('Error in autocomplete:', err)
     autocompleteSuggestions.value = []
     showAutocomplete.value = false
   } finally {
@@ -149,10 +145,13 @@ const getAutocompleteSuggestions = async (query, count = 5) => {
 const debouncedAutocomplete = debounce(getAutocompleteSuggestions, 300)
 
 const selectSuggestion = (suggestion) => {
-  searchQuery.value = suggestion.displayName
+  // Use only the city name, not the complete displayName
+  // This avoids problems with the geocoding API
+  searchQuery.value = suggestion.name
   showAutocomplete.value = false
   selectedSuggestionIndex.value = -1
-  emit('suggestion-selected', suggestion)
+  // DO NOT emit event - only fill the search field
+  // User must press "Search" to execute the search
 }
 
 // Function to handle keyboard navigation in autocomplete
@@ -173,8 +172,12 @@ const handleKeyDown = (event) => {
     case 'Enter':
       event.preventDefault()
       if (selectedSuggestionIndex.value >= 0) {
+        // Only select suggestion, DO NOT execute search
         selectSuggestion(autocompleteSuggestions.value[selectedSuggestionIndex.value])
-      } else searchWeather()
+      } else {
+        // Only if no suggestion is selected, execute search
+        searchWeather()
+      }
       break
     case 'Escape':
       showAutocomplete.value = false
