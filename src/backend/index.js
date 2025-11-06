@@ -13,11 +13,31 @@ const {
 } = require('./env.config.js');
 const prisma = require('./config/database');
 const { errorHandler, notFoundHandler } = require('./middleware/errorHandler');
-const corsMiddleware = require('./middleware/cors');
+const config = require('./config');
 const registerRoutes = require('./routes');
 
-// Register CORS middleware
-fastify.register(corsMiddleware);
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        const { allowedOrigins } = config.CORS;
+        // Check if origin is explicitly allowed
+        if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        // For development, allow localhost origins (IPv4 and IPv6)
+        if (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('[::1]')) {
+            return callback(null, true);
+        }
+        // Reject other origins
+        callback(new Error('Not allowed by CORS'));
+    },
+    methods: config.CORS.allowedMethods,
+    allowedHeaders: config.CORS.allowedHeaders,
+    credentials: config.CORS.credentials,
+    maxAge: config.CORS.maxAge
+};
+
+fastify.register(require('@fastify/cors'), corsOptions);
 
 // Make Prisma available to routes
 fastify.decorate('prisma', prisma);
