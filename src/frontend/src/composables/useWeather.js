@@ -78,6 +78,7 @@ export function useWeather() {
     // Add icon to current weather
     if (processedData.current) {
       processedData.current.icon = getWeatherIcon(processedData.current.weatherCode)
+      if (processedData.location) processedData.current.location = processedData.location
     }
     // Add icons to forecast
     if (processedData.forecast) {
